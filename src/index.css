@@ -1,0 +1,34 @@
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body{
+  height: 100vh;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-size: 28px;
+}
+
+#root{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.header{
+  background-color: gray;
+  min-height: 96px;
+}
+
+.footer{
+  background-color: gray;
+  min-height: 96px;
+}
+
+.main{
+  background-color: darkgray;
+  height: 100%;
+  overflow-y: scroll;
+}
+
