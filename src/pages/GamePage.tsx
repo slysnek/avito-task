@@ -23,7 +23,7 @@ const GamePage = () => {
         <>
           <button onClick={goBack}>Back</button>
           <h1>{game.title}</h1>
-          <p>{game.release_date}</p>
+          <p>{game.release_date.split('-').reverse().join('/')}</p>
           <p>{game.publisher}</p>
           <p>{game.developer}</p>
           <p>{game.genre}</p>
@@ -36,11 +36,15 @@ const GamePage = () => {
               <li>{game.minimum_system_requirements.graphics}</li>
               <li>{game.minimum_system_requirements.storage}</li>
             </ul>
-          ) : <p>no data for requirements is provided</p>}
+          ) : (
+            <p>no data for requirements is provided</p>
+          )}
         </>
       )}
     </div>
   );
 };
+
+
 
 export default GamePage;
