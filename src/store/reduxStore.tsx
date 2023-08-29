@@ -1,7 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
+import sortSlice from './sortSlice';
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    sortInStore: sortSlice,
+  },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
