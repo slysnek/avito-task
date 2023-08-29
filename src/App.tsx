@@ -14,6 +14,7 @@ export function App() {
             colorTextBase: '#c6d4df',
             colorTextHeading: 'white',
             colorPrimary: '#171d25',
+            colorBgBase: '#2e3b4b',
           },
         }}
       >
