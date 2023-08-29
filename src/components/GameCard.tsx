@@ -1,9 +1,8 @@
-import { Typography } from "antd";
+import { Typography } from 'antd';
 
 const { Title, Text } = Typography;
 
 const GameCard = ({ info }) => {
-  console.log(info);
 
   return (
     <div className="game-card">
