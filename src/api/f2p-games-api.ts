@@ -8,9 +8,25 @@ export const api = {
     },
   },
 
-  async getAllGames() {
+  async getAllGames(sortValue?: string, platformValue?: string, genreValue?: string) {
+    let hasParam = false;
+    let url = this.url + '/games';
+    if (genreValue) {
+      url += `?category=${genreValue}`;
+      hasParam = true;
+    }
+    if (platformValue) {
+      url += `${hasParam ? '&' : '?'}platform=${platformValue}`;
+      hasParam = true;
+    }
+    if (sortValue) {
+      url += `${hasParam ? '&' : '?'}sort-by=${sortValue}`;
+    }
+
+    console.log(url);
+
     try {
-      const response = await fetch(`${this.url}/games`, this.options);
+      const response = await fetch(url, this.options);
       const textResult = await response.text();
       const textToObj = await JSON.parse(textResult);
       return textToObj;
