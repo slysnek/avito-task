@@ -158,6 +158,14 @@ body{
   padding: 8px;
 }
 
+.loading-icon{
+  font-size: 64px;
+  position: absolute;
+  margin: 0 auto;
+  left: 45%;
+  top: 47%;
+}
+
 
 @media screen and (max-width: 1600px) {
   .game-info-wrapper{
@@ -202,5 +210,9 @@ body{
   }
   .game-cards{
     padding: 16px 0px;
+  }
+  .header{
+    min-height: 128px;
+    flex-wrap: wrap;
   }
 }
