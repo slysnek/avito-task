@@ -8,9 +8,9 @@ export interface SortState {
 }
 
 const initialState: SortState = {
-  sort: '',
-  platform: 'all',
-  genre: '',
+  sort: localStorage.getItem('sort') || '',
+  platform: localStorage.getItem('platform') || 'all',
+  genre: localStorage.getItem('genre') || '',
 };
 
 export const sortSlice = createSlice({
@@ -19,12 +19,15 @@ export const sortSlice = createSlice({
   reducers: {
     changeSort: (state, action: PayloadAction<string>) => {
       state.sort = action.payload;
+      localStorage.setItem('sort', action.payload);
     },
     changePlatform: (state, action: PayloadAction<string>) => {
       state.platform = action.payload;
+      localStorage.setItem('platform', action.payload);
     },
     changeGenre: (state, action: PayloadAction<string>) => {
       state.genre = action.payload;
+      localStorage.setItem('genre', action.payload);
     },
   },
 });

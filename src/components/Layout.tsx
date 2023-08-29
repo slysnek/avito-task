@@ -1,6 +1,6 @@
 import { Select } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, Outlet, useSearchParams } from 'react-router-dom';
+import { Link, Outlet, useSearchParams, useNavigate } from 'react-router-dom';
 import { RootState, AppDispatch } from '../store/reduxStore';
 import { changeSort, changePlatform, changeGenre } from '../store/sortSlice';
 
@@ -10,41 +10,52 @@ const Layout = () => {
   const genreValue = useSelector((state: RootState) => state.sortInStore.genre);
   const dispatch = useDispatch<AppDispatch>();
 
-  const [, setSortParams] = useSearchParams();
+  const navigate = useNavigate();
+
+  const [, setSearchParams] = useSearchParams();
 
   const handleSortChange = (value: string) => {
     dispatch(changeSort(value));
     value
-      ? setSortParams((params) => {
+      ? setSearchParams((params) => {
           params.set('sort-by', value);
           return params;
         })
-      : setSortParams();
+      : setSearchParams();
   };
 
   const handlePlatformChange = (value: string) => {
     dispatch(changePlatform(value));
     value
-      ? setSortParams((params) => {
+      ? setSearchParams((params) => {
           params.set('platform', value);
           return params;
         })
-      : setSortParams();
+      : setSearchParams();
   };
   const handleGenreChange = (value: string) => {
     dispatch(changeGenre(value));
     value
-      ? setSortParams((params) => {
+      ? setSearchParams((params) => {
           params.set('category', value);
           return params;
         })
-      : setSortParams();
+      : setSearchParams();
   };
 
+  const handleGoHome = () => {
+    setSearchParams({});
+    navigate('', { replace: true });
+    dispatch(changePlatform('all'));
+    dispatch(changeSort(''));
+    dispatch(changeGenre(''));
+  };
   return (
     <>
       <header className="header">
-        <Link to="/">Home</Link>
+        <Link onClick={handleGoHome} to="/">
+          Home
+        </Link>
         <Select
           value={sortValue}
           style={{ width: 120 }}
