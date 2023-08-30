@@ -1,8 +1,12 @@
-import { useState } from 'react';
+import { SetStateAction, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './Carousel.css';
 
-const Carousel = ({ images }) => {
+interface IProps {
+  images: string[] | undefined;
+}
+
+const Carousel = ({ images }: IProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState<string | null>(null);
 
@@ -53,16 +57,16 @@ const Carousel = ({ images }) => {
 
   const handleNext = () => {
     setDirection('right');
-    setCurrentIndex((prevIndex) => (prevIndex + 1 === images.length ? 0 : prevIndex + 1));
+    setCurrentIndex((prevIndex) => (prevIndex + 1 === images!.length ? 0 : prevIndex + 1));
   };
 
   const handlePrevious = () => {
     setDirection('left');
 
-    setCurrentIndex((prevIndex) => (prevIndex - 1 < 0 ? images.length - 1 : prevIndex - 1));
+    setCurrentIndex((prevIndex) => (prevIndex - 1 < 0 ? images!.length - 1 : prevIndex - 1));
   };
 
-  const handleDotClick = (index) => {
+  const handleDotClick = (index: SetStateAction<number>) => {
     setDirection(index > currentIndex ? 'right' : 'left');
     setCurrentIndex(index);
   };
@@ -73,7 +77,7 @@ const Carousel = ({ images }) => {
         <AnimatePresence>
           <motion.img
             key={currentIndex}
-            src={images[currentIndex]}
+            src={images![currentIndex]}
             initial={direction === 'right' ? 'hiddenRight' : 'hiddenLeft'}
             animate="visible"
             exit="exit"
@@ -105,7 +109,7 @@ const Carousel = ({ images }) => {
         </div>
       </div>
       <div className="carousel-indicator">
-        {images.map((_, index) => (
+        {images!.map((_, index) => (
           <motion.div
             key={index}
             className={`dot ${currentIndex === index ? 'active' : ''}`}
