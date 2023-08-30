@@ -77,8 +77,11 @@ function Home() {
         <>
           <div className="sort-options-wrapper">
             <Title level={5}>
-              {info && 'status' in info && info.status !== 0
-                ? `Games found: ${(info as unknown as Games[]).length}`
+              {info !== null &&
+              info !== undefined &&
+              (('status' in info && info.status !== 0) ||
+                !('status' in info && info.status === 0 && 'length' in info))
+                ? `Games found: ${'length' in info ? info.length : 0}`
                 : 'No games were found. Please try other settings.'}
             </Title>
             <Select
@@ -122,7 +125,10 @@ function Home() {
             />
           </div>
           <div className="game-cards">
-            {info && 'status' in info && info.status !== 0 ? (
+            {info !== null &&
+            info !== undefined &&
+            (('status' in info && info.status !== 0) ||
+              !('status' in info && info.status === 0 && 'length' in info)) ? (
               <>
                 <div className="game-cards-wrapper">
                   {(info as unknown as Games[]).slice(0, amountVisible).map((game) => {
