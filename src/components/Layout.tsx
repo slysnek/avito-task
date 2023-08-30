@@ -101,7 +101,7 @@ const Layout = () => {
       </main>
       <footer className="footer">
         <a href="https://github.com/slysnek">
-          <img src="./src/assets/github.svg" alt="github icon" />
+          <img src="../src/assets/github.svg" alt="github icon" />
         </a>
         <span>2023</span>
       </footer>

@@ -44,7 +44,11 @@ const GamePage = () => {
               <div className="upper-info-wrapper">
                 <Carousel images={game.screenshots.map((el) => el.image)}></Carousel>
                 <div className="main-info-wrapper">
-                  <img className="game-thumbnail" src={game.thumbnail} alt="no picture :(" />
+                  <img
+                    className="game-thumbnail"
+                    src={game.thumbnail}
+                    alt="no image is available :("
+                  />
                   <div className="info-wrapper">
                     <Title level={5}>Genre: {game.genre}</Title>
                     <Title level={5}>
