@@ -59,7 +59,7 @@ function Home() {
                   })}
                 </div>
                 <div className="load-more-wrapper">
-                  {amountVisible > info.length ? (
+                  {amountVisible < info.length ? (
                     <Button
                       onClick={showMoreItems}
                       size="large"
