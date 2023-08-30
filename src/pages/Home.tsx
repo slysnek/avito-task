@@ -1,11 +1,12 @@
 import { LoadingOutlined, ReloadOutlined } from '@ant-design/icons';
-import { Button, Typography } from 'antd';
+import { Button, Select, Typography } from 'antd';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useSearchParams } from 'react-router-dom';
 import { api } from '../api/f2p-games-api';
 import GameCard from '../components/GameCard';
-import { RootState } from '../store/reduxStore';
+import { AppDispatch, RootState } from '../store/reduxStore';
+import { changeSort, changePlatform, changeGenre } from '../store/sortSlice';
 
 const { Title } = Typography;
 
@@ -14,7 +15,9 @@ function Home() {
   const [loading, setLoading] = useState(true);
   const [amountVisible, setAmountVisible] = useState(10);
 
-  const [sortParams, ,] = useSearchParams();
+  const dispatch = useDispatch<AppDispatch>();
+
+  const [, setSearchParams] = useSearchParams();
   const sortValue = useSelector((state: RootState) => state.sortInStore.sort);
   const platformValue = useSelector((state: RootState) => state.sortInStore.platform);
   const genreValue = useSelector((state: RootState) => state.sortInStore.genre);
@@ -33,17 +36,87 @@ function Home() {
     getData();
   }, [sortValue, platformValue, genreValue]);
 
+  const handleSortChange = (value: string) => {
+    dispatch(changeSort(value));
+    value
+      ? setSearchParams((params) => {
+          params.set('sort-by', value);
+          return params;
+        })
+      : setSearchParams();
+  };
+
+  const handlePlatformChange = (value: string) => {
+    dispatch(changePlatform(value));
+    value
+      ? setSearchParams((params) => {
+          params.set('platform', value);
+          return params;
+        })
+      : setSearchParams();
+  };
+  const handleGenreChange = (value: string) => {
+    dispatch(changeGenre(value));
+    value
+      ? setSearchParams((params) => {
+          params.set('category', value);
+          return params;
+        })
+      : setSearchParams();
+  };
+
   return (
     <>
       {loading ? (
         <LoadingOutlined className="loading-icon" />
       ) : (
         <>
-          <Title level={5}>
-            {info && info.status !== 0
-              ? `Games found: ${info.length}`
-              : 'No games were found. Please try other settings.'}
-          </Title>
+          <div className="sort-options-wrapper">
+            <Title level={5}>
+              {info && info.status !== 0
+                ? `Games found: ${info.length}`
+                : 'No games were found. Please try other settings.'}
+            </Title>
+            <Select
+              value={sortValue}
+              style={{ width: 120 }}
+              onChange={handleSortChange}
+              options={[
+                { value: '', label: 'No Sorting' },
+                { value: 'alphabetical', label: 'Alphabetical' },
+                { value: 'release-date', label: 'Release Date' },
+                { value: 'relevance', label: 'Relevance' },
+              ]}
+            />
+            <Select
+              value={platformValue}
+              style={{ width: 120 }}
+              onChange={handlePlatformChange}
+              options={[
+                { value: 'all', label: 'All Platforms' },
+                { value: 'pc', label: 'PC' },
+                { value: 'browser', label: 'Browser' },
+              ]}
+            />
+            <Select
+              value={genreValue}
+              style={{ width: 120 }}
+              onChange={handleGenreChange}
+              options={[
+                { value: '', label: 'All Genres' },
+                { value: 'mmo', label: 'MMO' },
+                { value: 'mmorpg', label: 'MMORPG' },
+                { value: 'shooter', label: 'Shooter' },
+                { value: 'strategy', label: 'Strategy' },
+                { value: 'moba', label: 'Moba' },
+                { value: 'card', label: 'Card Games' },
+                { value: 'racing', label: 'Racing' },
+                { value: 'sports', label: 'Sports' },
+                { value: 'social', label: 'Social' },
+                { value: 'fighting', label: 'Fighting' },
+              ]}
+            />
+          </div>
           <div className="game-cards">
             {info && info.status !== 0 ? (
               <>
