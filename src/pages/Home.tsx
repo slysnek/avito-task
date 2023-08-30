@@ -7,11 +7,12 @@ import { api } from '../api/f2p-games-api';
 import GameCard from '../components/GameCard';
 import { AppDispatch, RootState } from '../store/reduxStore';
 import { changeSort, changePlatform, changeGenre } from '../store/sortSlice';
+import { Games, NotFound } from '../types/interfaces';
 
 const { Title } = Typography;
 
 function Home() {
-  const [info, setInfo] = useState<null | any>(null);
+  const [info, setInfo] = useState<undefined | null | Games[] | NotFound>(null);
   const [loading, setLoading] = useState(true);
   const [amountVisible, setAmountVisible] = useState(10);
 
@@ -28,10 +29,13 @@ function Home() {
 
   useEffect(() => {
     const getData = async () => {
-      const res = await api.getAllGames(sortValue, platformValue, genreValue);
-      setInfo(res);
-      setLoading(false);
-      console.log(res);
+      try {
+        const res = await api.getAllGames(sortValue, platformValue, genreValue);
+        setInfo(res);
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+      }
     };
     getData();
   }, [sortValue, platformValue, genreValue]);
@@ -73,8 +77,8 @@ function Home() {
         <>
           <div className="sort-options-wrapper">
             <Title level={5}>
-              {info && info.status !== 0
-                ? `Games found: ${info.length}`
+              {info && 'status' in info && info.status !== 0
+                ? `Games found: ${(info as unknown as Games[]).length}`
                 : 'No games were found. Please try other settings.'}
             </Title>
             <Select
@@ -118,10 +122,10 @@ function Home() {
             />
           </div>
           <div className="game-cards">
-            {info && info.status !== 0 ? (
+            {info && 'status' in info && info.status !== 0 ? (
               <>
                 <div className="game-cards-wrapper">
-                  {info.slice(0, amountVisible).map((game: any) => {
+                  {(info as unknown as Games[]).slice(0, amountVisible).map((game) => {
                     return (
                       <div key={game.id}>
                         <Link to={`games/${game.id}`}>
@@ -132,7 +136,7 @@ function Home() {
                   })}
                 </div>
                 <div className="load-more-wrapper">
-                  {amountVisible < info.length ? (
+                  {amountVisible < (info as unknown as Games[]).length ? (
                     <Button
                       onClick={showMoreItems}
                       size="large"

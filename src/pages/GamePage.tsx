@@ -4,22 +4,27 @@ import { api } from '../api/f2p-games-api';
 import { Button, Typography, Collapse } from 'antd';
 import { LeftCircleOutlined, LoadingOutlined } from '@ant-design/icons';
 import Carousel from '../components/Carousel';
+import { Game } from '../types/interfaces';
 
 const { Title, Text } = Typography;
 
 const GamePage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [game, setGame] = useState(null);
+  const [game, setGame] = useState<Game | null | undefined>(null);
   const [loading, setLoading] = useState(true);
 
   const goBack = () => navigate(-1);
 
   useEffect(() => {
     const getGame = async () => {
-      const res = await api.getGameById(Number(id));
-      setGame(res);
-      setLoading(false);
+      try {
+        const res = await api.getGameById(Number(id));
+        setGame(res);
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+      }
     };
     getGame();
   }, [id]);
@@ -42,7 +47,7 @@ const GamePage = () => {
               </Button>
               <Title>{game.title}</Title>
               <div className="upper-info-wrapper">
-                <Carousel images={game.screenshots.map((el) => el.image)}></Carousel>
+                <Carousel images={game.screenshots?.map((el) => el.image)}></Carousel>
                 <div className="main-info-wrapper">
                   <img
                     className="game-thumbnail"

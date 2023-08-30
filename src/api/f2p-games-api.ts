@@ -1,3 +1,5 @@
+import { Game, Games, NotFound } from '../types/interfaces';
+
 export const api = {
   url: 'https://free-to-play-games-database.p.rapidapi.com/api',
   options: {
@@ -28,7 +30,7 @@ export const api = {
     try {
       const response = await fetch(url, this.options);
       const textResult = await response.text();
-      const textToObj = await JSON.parse(textResult);
+      const textToObj: Games[] | NotFound = await JSON.parse(textResult);
       return textToObj;
     } catch (error) {
       console.error(error);
@@ -39,8 +41,7 @@ export const api = {
     try {
       const response = await fetch(`${this.url}/game?id=${id}`, this.options);
       const textResult = await response.text();
-      const textToObj = await JSON.parse(textResult);
-      console.log(textToObj);
+      const textToObj: Game = await JSON.parse(textResult);
       return textToObj;
     } catch (error) {
       console.error(error);
