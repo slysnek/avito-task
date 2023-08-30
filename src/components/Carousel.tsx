@@ -78,6 +78,7 @@ const Carousel = ({ images }) => {
             animate="visible"
             exit="exit"
             variants={slideVariants}
+            alt="no image is available :("
           />
         </AnimatePresence>
         <div className="slide_direction">
