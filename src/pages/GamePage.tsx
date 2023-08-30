@@ -1,34 +1,28 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { api } from '../api/f2p-games-api';
+import { useNavigate } from 'react-router-dom';
 import { Button, Typography, Collapse } from 'antd';
 import { LeftCircleOutlined, LoadingOutlined } from '@ant-design/icons';
 import Carousel from '../components/Carousel';
 import { Game, NotFound } from '../types/interfaces';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/reduxStore';
 
 const { Title, Text } = Typography;
 
 const GamePage = () => {
-  const { id } = useParams();
   const navigate = useNavigate();
   const [game, setGame] = useState<Game | null | undefined | NotFound>(null);
   const [loading, setLoading] = useState(true);
 
+  const gameValue = useSelector((state: RootState) => state.gameInStore.game);
+
   const goBack = () => navigate(-1);
 
   useEffect(() => {
-    const getGame = async () => {
-      try {
-        const res = await api.getGameById(Number(id));
-        console.log(res);
-        setGame(res);
-        setLoading(false);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getGame();
-  }, [id]);
+    console.log(gameValue, 'game value');
+    setGame(gameValue);
+    setLoading(false);
+  }, [gameValue]);
 
   return (
     <>

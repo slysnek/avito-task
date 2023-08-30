@@ -1,6 +1,6 @@
 import { LoadingOutlined, ReloadOutlined } from '@ant-design/icons';
 import { Button, Select, Typography } from 'antd';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useSearchParams } from 'react-router-dom';
 import { api } from '../api/f2p-games-api';
@@ -8,6 +8,8 @@ import GameCard from '../components/GameCard';
 import { AppDispatch, RootState } from '../store/reduxStore';
 import { changeSort, changePlatform, changeGenre } from '../store/sortSlice';
 import { Games, NotFound } from '../types/interfaces';
+import { changeId } from '../store/gameSlice';
+import { getGameById } from '../store/gameSlice';
 
 const { Title } = Typography;
 
@@ -67,6 +69,12 @@ function Home() {
           return params;
         })
       : setSearchParams();
+  };
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const gameId = e.currentTarget.href.split('/').reverse()[0];
+    console.log(gameId, 'id when click from link');
+    dispatch(changeId(Number(gameId)));
+    dispatch(getGameById(Number(gameId)));
   };
 
   return (
@@ -128,7 +136,7 @@ function Home() {
                   {info.slice(0, amountVisible).map((game) => {
                     return (
                       <div key={game.id}>
-                        <Link to={`games/${game.id}`}>
+                        <Link onClick={handleClick} to={`games/${game.id}`}>
                           <GameCard game={game}></GameCard>
                         </Link>
                       </div>
