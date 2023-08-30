@@ -4,14 +4,14 @@ import { api } from '../api/f2p-games-api';
 import { Button, Typography, Collapse } from 'antd';
 import { LeftCircleOutlined, LoadingOutlined } from '@ant-design/icons';
 import Carousel from '../components/Carousel';
-import { Game } from '../types/interfaces';
+import { Game, NotFound } from '../types/interfaces';
 
 const { Title, Text } = Typography;
 
 const GamePage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [game, setGame] = useState<Game | null | undefined>(null);
+  const [game, setGame] = useState<Game | null | undefined | NotFound>(null);
   const [loading, setLoading] = useState(true);
 
   const goBack = () => navigate(-1);
@@ -20,6 +20,7 @@ const GamePage = () => {
     const getGame = async () => {
       try {
         const res = await api.getGameById(Number(id));
+        console.log(res);
         setGame(res);
         setLoading(false);
       } catch (error) {
@@ -35,7 +36,7 @@ const GamePage = () => {
         <LoadingOutlined className="loading-icon" />
       ) : (
         <div className="game-info-wrapper">
-          {game && (
+          {game !== null && game !== undefined && 'title' in game ? (
             <>
               <Button
                 className="back-button"
@@ -88,6 +89,8 @@ const GamePage = () => {
                 <Title level={3}>No data for system requirements was provided by API.</Title>
               )}
             </>
+          ) : (
+            <Title level={3}>{game?.status_message}</Title>
           )}
         </div>
       )}

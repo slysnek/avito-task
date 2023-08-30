@@ -14,7 +14,7 @@ export interface Games {
 
 export interface NotFound {
   status: number;
-  statusMessage: string;
+  status_message: string;
 }
 
 export interface Game {

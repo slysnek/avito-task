@@ -77,12 +77,9 @@ function Home() {
         <>
           <div className="sort-options-wrapper">
             <Title level={5}>
-              {info !== null &&
-              info !== undefined &&
-              (('status' in info && info.status !== 0) ||
-                !('status' in info && info.status === 0 && 'length' in info))
+              {info !== null && info !== undefined && !('status' in info)
                 ? `Games found: ${'length' in info ? info.length : 0}`
-                : 'No games were found. Please try other settings.'}
+                : info?.status_message}
             </Title>
             <Select
               value={sortValue}
@@ -125,13 +122,10 @@ function Home() {
             />
           </div>
           <div className="game-cards">
-            {info !== null &&
-            info !== undefined &&
-            (('status' in info && info.status !== 0) ||
-              !('status' in info && info.status === 0 && 'length' in info)) ? (
+            {info !== null && info !== undefined && !('status' in info) ? (
               <>
                 <div className="game-cards-wrapper">
-                  {(info as unknown as Games[]).slice(0, amountVisible).map((game) => {
+                  {info.slice(0, amountVisible).map((game) => {
                     return (
                       <div key={game.id}>
                         <Link to={`games/${game.id}`}>
@@ -142,7 +136,7 @@ function Home() {
                   })}
                 </div>
                 <div className="load-more-wrapper">
-                  {amountVisible < (info as unknown as Games[]).length ? (
+                  {amountVisible < info.length ? (
                     <Button
                       onClick={showMoreItems}
                       size="large"
@@ -156,9 +150,7 @@ function Home() {
                   )}
                 </div>
               </>
-            ) : (
-              ''
-            )}
+            ) : null}
           </div>
         </>
       )}

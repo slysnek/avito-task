@@ -41,7 +41,7 @@ export const api = {
     try {
       const response = await fetch(`${this.url}/game?id=${id}`, this.options);
       const textResult = await response.text();
-      const textToObj: Game = await JSON.parse(textResult);
+      const textToObj: Game | NotFound = await JSON.parse(textResult);
       return textToObj;
     } catch (error) {
       console.error(error);
