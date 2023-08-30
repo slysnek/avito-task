@@ -129,7 +129,7 @@ function Home() {
                     return (
                       <div key={game.id}>
                         <Link to={`games/${game.id}`}>
-                          <GameCard info={game}></GameCard>
+                          <GameCard game={game}></GameCard>
                         </Link>
                       </div>
                     );
