@@ -6,6 +6,7 @@ import Carousel from '../components/Carousel';
 import { Game, NotFound } from '../types/interfaces';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/reduxStore';
+import { gameController } from '../api/f2p-games-api';
 
 const { Title, Text } = Typography;
 
@@ -16,7 +17,10 @@ const GamePage = () => {
 
   const gameValue = useSelector((state: RootState) => state.gameInStore.game);
 
-  const goBack = () => navigate(-1);
+  const goBack = () => {
+    gameController.abort();
+    navigate(-1);
+  };
 
   useEffect(() => {
     console.log(gameValue, 'game value');

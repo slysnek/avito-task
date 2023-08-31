@@ -3,7 +3,7 @@ import { Button, Select, Typography } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useSearchParams } from 'react-router-dom';
-import { api } from '../api/f2p-games-api';
+import { api, gamesController } from '../api/f2p-games-api';
 import GameCard from '../components/GameCard';
 import { AppDispatch, RootState } from '../store/reduxStore';
 import { changeSort, changePlatform, changeGenre } from '../store/sortSlice';
@@ -73,6 +73,7 @@ function Home() {
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const gameId = e.currentTarget.href.split('/').reverse()[0];
     console.log(gameId, 'id when click from link');
+    gamesController.abort();
     dispatch(changeId(Number(gameId)));
     dispatch(getGameById(Number(gameId)));
   };

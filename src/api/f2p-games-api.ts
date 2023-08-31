@@ -1,5 +1,10 @@
 import { Game, Games, NotFound } from '../types/interfaces';
 
+export const gamesController = new AbortController();
+const gamesSignal = gamesController.signal;
+export const gameController = new AbortController();
+const gameSignal = gamesController.signal;
+
 export const api = {
   url: 'https://free-to-play-games-database.p.rapidapi.com/api',
   options: {
@@ -28,11 +33,14 @@ export const api = {
     let retries = 3;
     while (retries > 0) {
       try {
-        const response = await fetch(url, this.options);
+        const response = await fetch(url, Object.defineProperty(this.options, 'signal', gamesSignal));
         const textResult = await response.text();
         const textToObj: Games[] | NotFound = await JSON.parse(textResult);
         return textToObj;
-      } catch {
+      } catch (error) {
+        if (error.name === 'AbortError') {
+          console.log('Request was aborted');
+        }
         retries--;
       }
     }
@@ -47,7 +55,10 @@ export const api = {
     let retries = 3;
     while (retries > 0) {
       try {
-        const response = await fetch(`${this.url}/game?id=${id}`, this.options);
+        const response = await fetch(
+          `${this.url}/game?id=${id}`,
+          Object.defineProperty(this.options, 'signal', gameSignal)
+        );
         const textResult = await response.text();
         const textToObj: Game | NotFound = await JSON.parse(textResult);
         return textToObj;
