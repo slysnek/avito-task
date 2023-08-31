@@ -33,12 +33,15 @@ export const api = {
     let retries = 3;
     while (retries > 0) {
       try {
-        const response = await fetch(url, Object.defineProperty(this.options, 'signal', gamesSignal));
+        const response = await fetch(
+          url,
+          Object.defineProperty(this.options, 'signal', gamesSignal)
+        );
         const textResult = await response.text();
         const textToObj: Games[] | NotFound = await JSON.parse(textResult);
         return textToObj;
-      } catch (error) {
-        if (error.name === 'AbortError') {
+      } catch (error: unknown) {
+        if ((error as Error).name === 'AbortError') {
           console.log('Request was aborted');
         }
         retries--;
