@@ -25,26 +25,40 @@ export const api = {
       url += `${hasParam ? '&' : '?'}sort-by=${sortValue}`;
     }
 
-    console.log(url);
-
-    try {
-      const response = await fetch(url, this.options);
-      const textResult = await response.text();
-      const textToObj: Games[] | NotFound = await JSON.parse(textResult);
-      return textToObj;
-    } catch (error) {
-      console.error(error);
+    let retries = 3;
+    while (retries > 0) {
+      try {
+        const response = await fetch(url, this.options);
+        const textResult = await response.text();
+        const textToObj: Games[] | NotFound = await JSON.parse(textResult);
+        return textToObj;
+      } catch {
+        retries--;
+      }
     }
+    console.error('All retries failed');
+    return {
+      status: 0,
+      status_message: 'Cannot reach the server.',
+    };
   },
 
   async getGameById(id: number) {
-    try {
-      const response = await fetch(`${this.url}/game?id=${id}`, this.options);
-      const textResult = await response.text();
-      const textToObj: Game | NotFound = await JSON.parse(textResult);
-      return textToObj;
-    } catch (error) {
-      console.error(error);
+    let retries = 3;
+    while (retries > 0) {
+      try {
+        const response = await fetch(`${this.url}/game?id=${id}`, this.options);
+        const textResult = await response.text();
+        const textToObj: Game | NotFound = await JSON.parse(textResult);
+        return textToObj;
+      } catch {
+        retries--;
+      }
     }
+    console.error('All retries failed');
+    return {
+      status: 0,
+      status_message: 'Cannot reach the server.',
+    };
   },
 };
