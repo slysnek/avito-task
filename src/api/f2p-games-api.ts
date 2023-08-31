@@ -1,9 +1,5 @@
 import { Game, Games, NotFound } from '../types/interfaces';
-
-export const gamesController = new AbortController();
-const gamesSignal = gamesController.signal;
-export const gameController = new AbortController();
-const gameSignal = gamesController.signal;
+import { gameSignal, gamesSignal } from './controllers';
 
 export const api = {
   url: 'https://free-to-play-games-database.p.rapidapi.com/api',
@@ -42,7 +38,7 @@ export const api = {
         return textToObj;
       } catch (error: unknown) {
         if ((error as Error).name === 'AbortError') {
-          console.log('Request was aborted');
+          console.error('Request was aborted');
         }
         retries--;
       }
