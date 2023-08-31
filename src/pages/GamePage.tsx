@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Typography, Collapse } from 'antd';
 import { LeftCircleOutlined, LoadingOutlined } from '@ant-design/icons';
-import Carousel from '../components/Carousel';
+import Carousel from '../components/Carousel/Carousel';
 import { Game, NotFound } from '../types/interfaces';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/reduxStore';
-import { gameController } from '../api/f2p-games-api';
+import { gameController } from '../api/controllers';
 
 const { Title, Text } = Typography;
 
@@ -23,7 +23,6 @@ const GamePage = () => {
   };
 
   useEffect(() => {
-    console.log(gameValue, 'game value');
     setGame(gameValue);
     setLoading(false);
   }, [gameValue]);
