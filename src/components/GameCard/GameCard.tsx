@@ -1,5 +1,6 @@
 import { Typography } from 'antd';
-import { Games } from '../types/interfaces';
+import { Games } from '../../types/interfaces';
+import './GameCard.css';
 
 const { Title, Text } = Typography;
 

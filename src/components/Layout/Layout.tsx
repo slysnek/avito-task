@@ -1,7 +1,8 @@
 import { useDispatch } from 'react-redux';
 import { Link, Outlet, useSearchParams, useNavigate } from 'react-router-dom';
-import { AppDispatch } from '../store/reduxStore';
-import { changeSort, changePlatform, changeGenre } from '../store/sortSlice';
+import { AppDispatch } from '../../store/reduxStore';
+import { changeSort, changePlatform, changeGenre } from '../../store/sortSlice';
+import './Layout.css';
 
 const Layout = () => {
   const dispatch = useDispatch<AppDispatch>();
