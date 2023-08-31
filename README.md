@@ -1,6 +1,6 @@
 # Тестовое задание для стажёра Frontend
-### Деплой
-https://64f0aa2138f84e5a5d92ca88--imaginative-raindrop-9edb3b.netlify.app/
+### Деплой приложения
+[тык](https://64f0aa2138f84e5a5d92ca88--imaginative-raindrop-9edb3b.netlify.app/)
 ### Скриншоты
 ![image](https://github.com/slysnek/avito-task/assets/75425287/8842182d-270b-49fd-90ff-e6ea65d0ee5c)
 ![image](https://github.com/slysnek/avito-task/assets/75425287/da6348ba-86d9-416a-bee6-04acbcfad687)
@@ -10,7 +10,8 @@ https://64f0aa2138f84e5a5d92ca88--imaginative-raindrop-9edb3b.netlify.app/
 ### Инструкция по запуску
 * Скачать репозиторий к себе на рабочий стол либо выполнить в терминале команду ```git clone https://github.com/slysnek/avito-task.git```
 * Зайти в директорию репозитория и выполнить команду ```npm i```
-* В директории репозитория (**не** в ```src```!!!) создать ```.env``` файл и вписать туда ```VITE_API_KEY=*ваш_апи_ключ*```. Апи ключ добывается при регистрации на сайте https://rapidapi.com/. Если лень регистрироваться - то вот мой ключик: ```c7d377c265msh77b1e742ca44d4bp197008jsn051078af1095```.
+* В директории репозитория (**не** в ```src```!!!) создать ```.env``` файл и вписать туда ```VITE_API_KEY=*ваш_апи_ключ*```. Api ключ добывается при регистрации на сайте https://rapidapi.com/. И затем берется по адресу https://rapidapi.com/digiwalls/api/free-to-play-games-database в разделе ```Header-parameteres```-```X-RapidAPI-Key```.
+* ❗ В связи с высокой нагрузкой API, он может быть недоступен или же по какой-то причине выкидывает с ошибкой 403 (не распознает ключ) и 429 (слишком много запросов). Для теста можно использовать ссылку на [деплой](https://64f0aa2138f84e5a5d92ca88--imaginative-raindrop-9edb3b.netlify.app/) netlify выше, там уже есть api ключ.
 * Выполнить команду в терминале ```npm start```
 
 ## Требования (самопроверка)
