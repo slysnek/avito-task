@@ -1,28 +1,31 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { api } from '../api/f2p-games-api';
+import { useNavigate } from 'react-router-dom';
 import { Button, Typography, Collapse } from 'antd';
 import { LeftCircleOutlined, LoadingOutlined } from '@ant-design/icons';
-import Carousel from '../components/Carousel';
+import Carousel from '../components/Carousel/Carousel';
+import { Game, NotFound } from '../types/interfaces';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/reduxStore';
+import { gameController } from '../api/controllers';
 
 const { Title, Text } = Typography;
 
 const GamePage = () => {
-  const { id } = useParams();
   const navigate = useNavigate();
-  const [game, setGame] = useState(null);
+  const [game, setGame] = useState<Game | null | undefined | NotFound>(null);
   const [loading, setLoading] = useState(true);
 
-  const goBack = () => navigate(-1);
+  const gameValue = useSelector((state: RootState) => state.gameInStore.game);
+
+  const goBack = () => {
+    gameController.abort();
+    navigate(-1);
+  };
 
   useEffect(() => {
-    const getGame = async () => {
-      const res = await api.getGameById(Number(id));
-      setGame(res);
-      setLoading(false);
-    };
-    getGame();
-  }, [id]);
+    setGame(gameValue);
+    setLoading(false);
+  }, [gameValue]);
 
   return (
     <>
@@ -30,7 +33,7 @@ const GamePage = () => {
         <LoadingOutlined className="loading-icon" />
       ) : (
         <div className="game-info-wrapper">
-          {game && (
+          {game !== null && game !== undefined && 'title' in game ? (
             <>
               <Button
                 className="back-button"
@@ -42,7 +45,7 @@ const GamePage = () => {
               </Button>
               <Title>{game.title}</Title>
               <div className="upper-info-wrapper">
-                <Carousel images={game.screenshots.map((el) => el.image)}></Carousel>
+                <Carousel images={game.screenshots?.map((el) => el.image)}></Carousel>
                 <div className="main-info-wrapper">
                   <img
                     className="game-thumbnail"
@@ -83,6 +86,8 @@ const GamePage = () => {
                 <Title level={3}>No data for system requirements was provided by API.</Title>
               )}
             </>
+          ) : (
+            <Title level={3}>{game?.status_message}</Title>
           )}
         </div>
       )}

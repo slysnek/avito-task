@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import sortSlice from './sortSlice';
+import gameSlice from './gameSlice';
 
 export const store = configureStore({
   reducer: {
     sortInStore: sortSlice,
+    gameInStore: gameSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

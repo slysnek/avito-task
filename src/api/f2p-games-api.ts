@@ -1,3 +1,6 @@
+import { Game, Games, NotFound } from '../types/interfaces';
+import { gameSignal, gamesSignal } from './controllers';
+
 export const api = {
   url: 'https://free-to-play-games-database.p.rapidapi.com/api',
   options: {
@@ -23,27 +26,49 @@ export const api = {
       url += `${hasParam ? '&' : '?'}sort-by=${sortValue}`;
     }
 
-    console.log(url);
-
-    try {
-      const response = await fetch(url, this.options);
-      const textResult = await response.text();
-      const textToObj = await JSON.parse(textResult);
-      return textToObj;
-    } catch (error) {
-      console.error(error);
+    let retries = 3;
+    while (retries > 0) {
+      try {
+        const response = await fetch(
+          url,
+          Object.defineProperty(this.options, 'signal', gamesSignal)
+        );
+        const textResult = await response.text();
+        const textToObj: Games[] | NotFound = await JSON.parse(textResult);
+        return textToObj;
+      } catch (error: unknown) {
+        if ((error as Error).name === 'AbortError') {
+          console.error('Request was aborted');
+        }
+        retries--;
+      }
     }
+    console.error('All retries failed');
+    return {
+      status: 0,
+      status_message: 'Cannot reach the server.',
+    };
   },
 
   async getGameById(id: number) {
-    try {
-      const response = await fetch(`${this.url}/game?id=${id}`, this.options);
-      const textResult = await response.text();
-      const textToObj = await JSON.parse(textResult);
-      console.log(textToObj);
-      return textToObj;
-    } catch (error) {
-      console.error(error);
+    let retries = 3;
+    while (retries > 0) {
+      try {
+        const response = await fetch(
+          `${this.url}/game?id=${id}`,
+          Object.defineProperty(this.options, 'signal', gameSignal)
+        );
+        const textResult = await response.text();
+        const textToObj: Game | NotFound = await JSON.parse(textResult);
+        return textToObj;
+      } catch {
+        retries--;
+      }
     }
+    console.error('All retries failed');
+    return {
+      status: 0,
+      status_message: 'Cannot reach the server.',
+    };
   },
 };
