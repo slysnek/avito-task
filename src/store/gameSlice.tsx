@@ -15,6 +15,7 @@ export const getGameById = createAsyncThunk('games/getGameById', async (id: numb
     console.log('its more than 5 minutes or new game');
     const response = await api.getGameById(id);
     thunkAPI.dispatch(changePrevId(id));
+    thunkAPI.dispatch(changePrevGame(response));
     localStorage.setItem('prevId', JSON.stringify(id));
     if (response === null) return null;
     return response;
@@ -25,6 +26,7 @@ export const getGameById = createAsyncThunk('games/getGameById', async (id: numb
 
 export interface SavedGameState {
   game: Game | NotFound | null;
+  prevGame: Game | NotFound | null;
   date: number | null;
   id: number | null;
   prevId: number | null;
@@ -32,6 +34,9 @@ export interface SavedGameState {
 
 const initialState: SavedGameState = {
   game: (localStorage.getItem('game') ? JSON.parse(localStorage.getItem('game')!) : null) || null,
+  prevGame:
+    (localStorage.getItem('prevGame') ? JSON.parse(localStorage.getItem('prevGame')!) : null) ||
+    null,
   date: Number(localStorage.getItem('date')) || null,
   id: Number(localStorage.getItem('id')) || null,
   prevId: Number(localStorage.getItem('prevId')) || null,
@@ -49,11 +54,17 @@ export const gameSlice = createSlice({
       state.prevId = action.payload;
       console.log(state.prevId, 'prev id in state change');
     },
+    changePrevGame: (state, action: PayloadAction<Game | NotFound>) => {
+      state.prevGame = action.payload;
+      console.log(state.prevId, 'prev game in state change');
+    },
   },
   extraReducers: (builder) => {
-    builder.addCase(getGameById.pending, (state) => {}),
+    builder.addCase(getGameById.pending, (state) => {
+      console.log('pending');
+      state.game = null;
+    }),
       builder.addCase(getGameById.fulfilled, (state, action) => {
-        console.log(action.payload, 'payload');
         if (!(action.payload === null)) {
           state.game = action.payload as Game | NotFound | null;
           console.log(state.game);
@@ -61,13 +72,18 @@ export const gameSlice = createSlice({
           localStorage.setItem('game', JSON.stringify(state.game));
           localStorage.setItem('date', JSON.stringify(state.date));
         } else {
-          state.game = state.game;
+          state.game = state.prevGame;
         }
       }),
-      builder.addCase(getGameById.rejected, (state) => {});
+      builder.addCase(getGameById.rejected, (state) => {
+        state.game = {
+          status: 0,
+          status_message: 'Rejected',
+        };
+      });
   },
 });
 
-export const { changeId, changePrevId } = gameSlice.actions;
+export const { changeId, changePrevId, changePrevGame } = gameSlice.actions;
 
 export default gameSlice.reducer;
