@@ -46,3 +46,11 @@ export interface ScreenshotsEntity {
   id: number;
   image: string;
 }
+
+export interface SavedGameState {
+  game: Game | NotFound | null;
+  prevGame: Game | NotFound | null;
+  date: number | null;
+  id: number | null;
+  prevId: number | null;
+}
