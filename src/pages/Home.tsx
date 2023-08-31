@@ -89,45 +89,47 @@ function Home() {
                 ? `Games found: ${'length' in info ? info.length : 0}`
                 : info?.status_message}
             </Title>
-            <Select
-              value={sortValue}
-              style={{ width: 120 }}
-              onChange={handleSortChange}
-              options={[
-                { value: '', label: 'No Sorting' },
-                { value: 'alphabetical', label: 'Alphabetical' },
-                { value: 'release-date', label: 'Release Date' },
-                { value: 'relevance', label: 'Relevance' },
-              ]}
-            />
-            <Select
-              value={platformValue}
-              style={{ width: 120 }}
-              onChange={handlePlatformChange}
-              options={[
-                { value: 'all', label: 'All Platforms' },
-                { value: 'pc', label: 'PC' },
-                { value: 'browser', label: 'Browser' },
-              ]}
-            />
-            <Select
-              value={genreValue}
-              style={{ width: 120 }}
-              onChange={handleGenreChange}
-              options={[
-                { value: '', label: 'All Genres' },
-                { value: 'mmo', label: 'MMO' },
-                { value: 'mmorpg', label: 'MMORPG' },
-                { value: 'shooter', label: 'Shooter' },
-                { value: 'strategy', label: 'Strategy' },
-                { value: 'moba', label: 'Moba' },
-                { value: 'card', label: 'Card Games' },
-                { value: 'racing', label: 'Racing' },
-                { value: 'sports', label: 'Sports' },
-                { value: 'social', label: 'Social' },
-                { value: 'fighting', label: 'Fighting' },
-              ]}
-            />
+            <div className="sort-options">
+              <Select
+                value={sortValue}
+                style={{ width: 120 }}
+                onChange={handleSortChange}
+                options={[
+                  { value: '', label: 'No Sorting' },
+                  { value: 'alphabetical', label: 'Alphabetical' },
+                  { value: 'release-date', label: 'Release Date' },
+                  { value: 'relevance', label: 'Relevance' },
+                ]}
+              />
+              <Select
+                value={platformValue}
+                style={{ width: 120 }}
+                onChange={handlePlatformChange}
+                options={[
+                  { value: 'all', label: 'All Platforms' },
+                  { value: 'pc', label: 'PC' },
+                  { value: 'browser', label: 'Browser' },
+                ]}
+              />
+              <Select
+                value={genreValue}
+                style={{ width: 120 }}
+                onChange={handleGenreChange}
+                options={[
+                  { value: '', label: 'All Genres' },
+                  { value: 'mmo', label: 'MMO' },
+                  { value: 'mmorpg', label: 'MMORPG' },
+                  { value: 'shooter', label: 'Shooter' },
+                  { value: 'strategy', label: 'Strategy' },
+                  { value: 'moba', label: 'Moba' },
+                  { value: 'card', label: 'Card Games' },
+                  { value: 'racing', label: 'Racing' },
+                  { value: 'sports', label: 'Sports' },
+                  { value: 'social', label: 'Social' },
+                  { value: 'fighting', label: 'Fighting' },
+                ]}
+              />
+            </div>
           </div>
           <div className="game-cards">
             {info !== null && info !== undefined && !('status' in info) ? (
