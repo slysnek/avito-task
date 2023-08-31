@@ -6,7 +6,7 @@ export const api = {
   options: {
     method: 'GET',
     headers: {
-      'X-RapidAPI-Key': 'c7d377c265msh77b1e742ca44d4bp197008jsn051078af1095', // add to .env
+      'X-RapidAPI-Key': import.meta.env.VITE_API_KEY,
       'X-RapidAPI-Host': 'free-to-play-games-database.p.rapidapi.com',
     },
   },
