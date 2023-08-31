@@ -67,7 +67,7 @@ const Carousel = ({ images }: IProps) => {
   };
 
   const handleDotClick = (index: SetStateAction<number>) => {
-    setDirection(index > currentIndex ? 'right' : 'left');
+    setDirection((index as number) > currentIndex ? 'right' : 'left');
     setCurrentIndex(index);
   };
 

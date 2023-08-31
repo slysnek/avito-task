@@ -3,6 +3,8 @@ import { Link, Outlet, useSearchParams, useNavigate } from 'react-router-dom';
 import { AppDispatch } from '../../store/reduxStore';
 import { changeSort, changePlatform, changeGenre } from '../../store/sortSlice';
 import './Layout.css';
+import githubLogo from '../../assets/github.svg';
+import logo from '../../assets/freetogame-logo.png';
 
 const Layout = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -22,7 +24,7 @@ const Layout = () => {
     <>
       <header className="header">
         <Link onClick={handleGoHome} to="/">
-          <img src="../src/assets/freetogame-logo.png" alt="logo" />
+          <img src={logo} alt="logo" />
         </Link>
       </header>
       <main className="main">
@@ -30,7 +32,7 @@ const Layout = () => {
       </main>
       <footer className="footer">
         <a href="https://github.com/slysnek">
-          <img src="../src/assets/github.svg" alt="github icon" />
+          <img src={githubLogo} alt="github icon" />
         </a>
         <span>2023</span>
       </footer>
