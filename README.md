@@ -1,4 +1,12 @@
 # Тестовое задание для стажёра Frontend
+### Деплой
+https://64f0aa2138f84e5a5d92ca88--imaginative-raindrop-9edb3b.netlify.app/
+### Скриншоты
+![image](https://github.com/slysnek/avito-task/assets/75425287/8842182d-270b-49fd-90ff-e6ea65d0ee5c)
+![image](https://github.com/slysnek/avito-task/assets/75425287/da6348ba-86d9-416a-bee6-04acbcfad687)
+
+
+
 ### Инструкция по запуску
 * Скачать репозиторий к себе на рабочий стол либо выполнить в терминале команду ```git clone https://github.com/slysnek/avito-task.git```
 * Зайти в директорию репозитория и выполнить команду ```npm i```
